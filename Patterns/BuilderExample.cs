@@ -11,14 +11,14 @@ namespace Patterns
 	{
 		public Roof()
 		{
-			Console.WriteLine("Крыша построена");
+			Console.WriteLine("Roof has been built");
 		}
 	}
 	class Basement
 	{
 		public Basement()
 		{
-			Console.WriteLine("Подвал построен");
+			Console.WriteLine("Basement has been built");
 		}
 	}
 
@@ -35,7 +35,7 @@ namespace Patterns
 	{
 		public Storey()
 		{
-			Console.WriteLine("Этаж построен");
+			Console.WriteLine("Storey has been built");
 		}
 	}
 
