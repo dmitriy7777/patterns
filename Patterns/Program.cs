@@ -170,7 +170,7 @@
 			Console.ReadKey();
 			Console.WriteLine();
 
-			//Command
+			//Command - IDbCommand в ADO.NET and Объект класса Task<T> принимает делегат Func<T>, который можно рассматривать в виде команды
 			Console.WriteLine("Command");
 			// Create receiver, command, and invoker
 			CommandReceiver commandReceiver = new CommandReceiver();
@@ -191,6 +191,32 @@
 			// Wait for user
 			Console.ReadKey();
 			Console.WriteLine();
+
+			//Interpreter
+			Console.WriteLine("Interpreter");
+			string roman = "MMXVIII";
+			Context context = new Context(roman);
+
+			//Строим 'parse tree'
+			List<Expression> tree = new List<Expression>
+			{
+				new ThousandExpression(),
+				new HundredExpression(),
+				new TenExpression(),
+				new OneExpression()
+			};
+
+			//Интерпритатор
+
+			foreach (Expression exp in tree)
+			{
+				exp.Interpret(context);
+			}
+			Console.WriteLine("{0} = {1}",
+				roman, context.Output);
+			// Set and execute command
+			invoker.SetCommand(command);
+			invoker.ExecuteCommand();
 		}
 
 		abstract class Product
