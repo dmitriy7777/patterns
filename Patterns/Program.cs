@@ -207,16 +207,55 @@
 			};
 
 			//Интерпритатор
-
 			foreach (Expression exp in tree)
 			{
 				exp.Interpret(context);
 			}
 			Console.WriteLine("{0} = {1}",
 				roman, context.Output);
-			// Set and execute command
-			invoker.SetCommand(command);
-			invoker.ExecuteCommand();
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
+			//Iterator - IEnumerable/IEnumerator , IEnumerable<T>/IEnumerator<T>, IObservable<T>/IObserver<T>
+			Console.WriteLine("Iterator");
+			ConcreteAggregate a = new ConcreteAggregate();
+			a[0] = "Item A";
+			a[1] = "Item B";
+			a[2] = "Item C";
+			a[3] = "Item D";
+
+			// Create Iterator and provide aggregate
+			Iterator i = a.CreateIterator();
+
+			Console.WriteLine("Iterating over collection:");
+
+			object item = i.First();
+			while (item != null)
+			{
+				Console.WriteLine(item);
+				item = i.Next();
+			}
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
+			//Mediator - MVC, MVP  - Controller и Presenter выступают в роли посредника
+			Console.WriteLine("Mediator");
+			ManagerMediator mediator = new ManagerMediator();
+			Colleague customer = new CustomerColleague(mediator);
+			Colleague programmer = new ProgrammerColleague(mediator);
+			Colleague tester = new TesterColleague(mediator);
+			mediator.Customer = customer;
+			mediator.Programmer = programmer;
+			mediator.Tester = tester;
+			customer.Send("There is an order. It is neccessary to create application");
+			programmer.Send("Application is completted. It is neccessary to test it");
+			tester.Send("Application is tested and ready for sale.");
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
 		}
 
 		abstract class Product
