@@ -62,7 +62,7 @@ class Facade
 
 	public void MethodA()
 	{
-		Console.WriteLine("\nMethodA() ---- ");
+		Console.WriteLine("MethodA() ---- ");
 		_one.MethodOne();
 		_two.MethodTwo();
 		_four.MethodFour();
@@ -70,7 +70,7 @@ class Facade
 
 	public void MethodB()
 	{
-		Console.WriteLine("\nMethodB() ---- ");
+		Console.WriteLine("MethodB() ---- ");
 		_two.MethodTwo();
 		_three.MethodThree();
 	}

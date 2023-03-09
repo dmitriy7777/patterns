@@ -147,7 +147,30 @@
 			Console.WriteLine("Price: {0}", pizza3.GetCost());
 			// Wait for user
 			Console.ReadKey();
-			Console.WriteLine();			
+			Console.WriteLine();
+
+			//Proxy
+			Console.WriteLine("Proxy");
+			Subject subject = new Proxy();
+			subject.Request();
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
+			//ChainOfResponsibility
+			Console.WriteLine("ChainOfResponsibility");
+			Receiver receiver = new Receiver(false, true, true);
+			PaymentHandler bankPaymentHandler = new BankPaymentHandler();
+			PaymentHandler moneyPaymentHnadler = new MoneyPaymentHandler();
+			PaymentHandler paypalPaymentHandler = new PayPalPaymentHandler();
+			bankPaymentHandler.Successor = paypalPaymentHandler;
+			paypalPaymentHandler.Successor = moneyPaymentHnadler;
+			bankPaymentHandler.Handle(receiver);			
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
+			
 		}
 
 		abstract class Product
