@@ -170,7 +170,27 @@
 			Console.ReadKey();
 			Console.WriteLine();
 
-			
+			//Command
+			Console.WriteLine("Command");
+			// Create receiver, command, and invoker
+			CommandReceiver commandReceiver = new CommandReceiver();
+			Command command = new ConcreteCommand(commandReceiver);
+			Invoker invoker = new Invoker();
+			// Set and execute command
+			invoker.SetCommand(command);
+			invoker.ExecuteCommand();
+
+			Conveyor conveyor = new Conveyor();
+			Multipult multipult = new Multipult();
+			multipult.SetCommand(0, new ConveyorWorkCommand(conveyor));
+			multipult.SetCommand(1, new ConveyorAdjustCommand(conveyor));
+			multipult.PressOn(0);
+			multipult.PressOn(1);
+			multipult.PressCancel();
+			multipult.PressCancel();
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
 		}
 
 		abstract class Product
