@@ -240,7 +240,7 @@
 			Console.ReadKey();
 			Console.WriteLine();
 
-			//Mediator - MVC, MVP  - Controller и Presenter выступают в роли посредника
+			//Mediator (Посредник) - MVC, MVP  - Controller и Presenter выступают в роли посредника
 			Console.WriteLine("Mediator");
 			ManagerMediator mediator = new ManagerMediator();
 			Colleague customer = new CustomerColleague(mediator);
@@ -256,6 +256,47 @@
 			Console.ReadKey();
 			Console.WriteLine();
 
+			//Memento - Хранитель
+			Console.WriteLine("Memento");
+			Originator o = new Originator();
+			o.State = "On";
+			// Store internal state
+			Caretaker c = new Caretaker();
+			c.Memento = o.CreateMemento();
+			// Continue changing originator
+			o.State = "Off";
+			// Restore saved state
+			o.SetMemento(c.Memento);			
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
+			//Observer - Наблюдатель
+			Console.WriteLine("Observer");
+			// Configure Observer pattern
+			ConcreteSubject s = new ConcreteSubject();
+			s.Attach(new ConcreteObserver(s, "X"));
+			s.Attach(new ConcreteObserver(s, "Y"));
+			s.Attach(new ConcreteObserver(s, "Z"));
+			// Change subject and notify observers
+			s.SubjectState = "ABC";
+			s.Notify();
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
+			//State - Task реализует конечный автомат перехода между состояниями задачи: Created, WaitingForActivation, WaitingToRun, Running, Run ToCompletion, Canceled, Faulted.
+			Console.WriteLine("State");
+			// Setup context in a state
+			StateContext сontext = new StateContext(new ConcreteStateA());
+			// Issue requests, which toggles state
+			сontext.Request();
+			сontext.Request();
+			сontext.Request();
+			сontext.Request();
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
 		}
 
 		abstract class Product
