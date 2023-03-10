@@ -297,6 +297,46 @@
 			// Wait for user
 			Console.ReadKey();
 			Console.WriteLine();
+
+			//Strategy - LINQ (Language Integrated Query),  IComparer<T> или IEqualityComparer<T>, использует паттерн «Стратегия». IErrorHandler — стратегия обработки коммуникационных ошибок; IChannelInitializer — стратегия инициализации канала; IDispatchMessageFormatter — стратегия форматирования сообщений; MessageFilter — стратегия фильтрации сообщений
+			Console.WriteLine("Strategy");
+			StrategyContext strategy = new StrategyContext(new ConcreteStrategyA());
+			strategy.ContextInterface();
+			strategy = new StrategyContext(new ConcreteStrategyB());
+			strategy.ContextInterface();
+			strategy = new StrategyContext(new ConcreteStrategyC());
+			strategy.ContextInterface();
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
+			//TemplateMethod - По большому счету, любой абстрактный класс, который содержит защищенный абстрактный метод, является примером паттерна «Шаблонный метод».
+			Console.WriteLine("TemplateMethod");
+			AbstractTemplateClass ac = new ConcreteTemplateClassA();
+			ac.PrimitiveOperation1();
+			ac.PrimitiveOperation2();
+			ac = new ConcreteTemplateClassB();
+			ac.PrimitiveOperation1();
+			ac.PrimitiveOperation2();
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
+			//Visitor - DbExpressionVisitor используется в Entity Framework для SQL-выражений.
+			Console.WriteLine("Visitor");
+			// Setup structure
+			ObjectStructure os = new ObjectStructure();
+			os.Attach(new ConcreteElementA());
+			os.Attach(new ConcreteElementB());
+			// Create visitor objects
+			ConcreteVisitor1 v1 = new ConcreteVisitor1();
+			ConcreteVisitor2 v2 = new ConcreteVisitor2();
+			// Structure accepting visitors
+			os.Accept(v1);
+			os.Accept(v2);
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
 		}
 
 		abstract class Product
