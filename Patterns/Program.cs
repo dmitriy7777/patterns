@@ -1,9 +1,40 @@
-﻿namespace Patterns
+﻿using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
+
+namespace Patterns
 {
 	internal class Program
 	{
 		static void Main(string[] args)
 		{
+			// Abstract factory #1
+			Console.WriteLine("Abstract Factory");
+			AbstractFactory factory1 = new ConcreteFactory1();
+			Client client1 = new Client(factory1);
+			client1.Run();
+
+			// Abstract factory #2
+			AbstractFactory factory2 = new ConcreteFactory2();
+			Client client2 = new Client(factory2);
+			client2.Run();
+
+			// Wait for user input
+			Console.ReadKey();
+			Console.WriteLine();
+
+			// Builder
+			Console.WriteLine("Builder");
+			ConcreteBuilder cb = new ConcreteBuilder();
+			cb.BuildBasement();
+			cb.BuildStorey();
+			cb.BuildRoof();
+			cb.GetResult();
+
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();			
+
 			//Factory Method
 			Console.WriteLine("Factory");
 			Creator[] creators = new Creator[2];
@@ -20,33 +51,6 @@
 			}
 
 			// Wait for user
-			Console.ReadKey();
-			Console.WriteLine();
-
-			// Builder
-			Console.WriteLine("Builder");
-			ConcreteBuilder cb = new ConcreteBuilder();
-			cb.BuildBasement();
-			cb.BuildStorey();
-			cb.BuildRoof();
-			cb.GetResult();
-
-			// Wait for user
-			Console.ReadKey();
-			Console.WriteLine();
-
-			// Abstract factory #1
-			Console.WriteLine("Abstract Factory");
-			AbstractFactory factory1 = new ConcreteFactory1();
-			Client client1 = new Client(factory1);
-			client1.Run();
-
-			// Abstract factory #2
-			AbstractFactory factory2 = new ConcreteFactory2();
-			Client client2 = new Client(factory2);
-			client2.Run();
-
-			// Wait for user input
 			Console.ReadKey();
 			Console.WriteLine();
 
@@ -97,6 +101,27 @@
 			Console.ReadKey();
 			Console.WriteLine();
 
+			//Decorator
+			Console.WriteLine("Decorator");
+			Pizza pizza1 = new ItalianPizza();
+			pizza1 = new TomatoPizza(pizza1); // итальянская пицца с томатами
+			Console.WriteLine("Name: {0}", pizza1.Name);
+			Console.WriteLine("Price: {0}", pizza1.GetCost());
+
+			Pizza pizza2 = new ItalianPizza();
+			pizza2 = new CheesePizza(pizza2);// итальянская пиццы с сыром
+			Console.WriteLine("Name: {0}", pizza2.Name);
+			Console.WriteLine("Price: {0}", pizza2.GetCost());
+
+			Pizza pizza3 = new BulgerianPizza();
+			pizza3 = new TomatoPizza(pizza3);
+			pizza3 = new CheesePizza(pizza3);// болгарская пиццы с томатами и сыром
+			Console.WriteLine("Name: {0}", pizza3.Name);
+			Console.WriteLine("Price: {0}", pizza3.GetCost());
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+
 			//Facade
 			Console.WriteLine("Facade");
 			Facade facade = new Facade();
@@ -126,28 +151,7 @@
 			uf.Operation(--extrinsicstate);
 			// Wait for user
 			Console.ReadKey();
-			Console.WriteLine();
-
-			//Decorator
-			Console.WriteLine("Decorator");
-			Pizza pizza1 = new ItalianPizza();
-			pizza1 = new TomatoPizza(pizza1); // итальянская пицца с томатами
-			Console.WriteLine("Name: {0}", pizza1.Name);
-			Console.WriteLine("Price: {0}", pizza1.GetCost());
-
-			Pizza pizza2 = new ItalianPizza();
-			pizza2 = new CheesePizza(pizza2);// итальянская пиццы с сыром
-			Console.WriteLine("Name: {0}", pizza2.Name);
-			Console.WriteLine("Price: {0}", pizza2.GetCost());
-
-			Pizza pizza3 = new BulgerianPizza();
-			pizza3 = new TomatoPizza(pizza3);
-			pizza3 = new CheesePizza(pizza3);// болгарская пиццы с томатами и сыром
-			Console.WriteLine("Name: {0}", pizza3.Name);
-			Console.WriteLine("Price: {0}", pizza3.GetCost());
-			// Wait for user
-			Console.ReadKey();
-			Console.WriteLine();
+			Console.WriteLine();			
 
 			//Proxy
 			Console.WriteLine("Proxy");
@@ -337,39 +341,74 @@
 			// Wait for user
 			Console.ReadKey();
 			Console.WriteLine();
-		}
 
-		abstract class Product
-		{
-		}
-
-		class ConcreteProductA : Product
-		{
-		}
-
-		class ConcreteProductB : Product
-		{
-		}
-
-		abstract class Creator
-		{
-			public abstract Product FactoryMethod();
-		}
-
-		class ConcreteCreatorA : Creator
-		{
-			public override Product FactoryMethod()
+			//Bin Tree Implementation
+			Console.WriteLine("Bin Tree Implementation");
+			var rootTree = new TreeNode<int>()
 			{
-				return new ConcreteProductA();
+				NodeValue = 10,
+				LeftNode = new TreeNode<int>()
+				{
+					NodeValue = 20,
+					RightNode = new TreeNode<int>() { NodeValue = 30 }
+				},
+				RightNode = new TreeNode<int>()
+				{
+					NodeValue = 40,
+					LeftNode = new TreeNode<int>() { NodeValue = 50 },
+					RightNode = new TreeNode<int>() { NodeValue = 60 }
+				}
+			};
+
+			ByPass<int>(rootTree);
+			Console.WriteLine(string.Join(";", ToEnumerable(rootTree)));
+			Console.WriteLine(string.Join(";", ToEnumerable2(rootTree)));
+
+			// Wait for user
+			Console.ReadKey();
+			Console.WriteLine();
+		}
+
+		static void ByPass<T>(TreeNode<T> node)
+		{
+			if (node == null) 
+			{
+				return;
+			}
+			Console.WriteLine(node.NodeValue);
+			ByPass(node.LeftNode);
+			ByPass(node.RightNode);
+		}
+
+		static IEnumerable<T> ToEnumerable<T>(TreeNode<T> node) 
+		{
+			if (node == null) 
+			{ 
+				yield break;
+			}
+			yield return node.NodeValue;
+			foreach (var element in ToEnumerable(node.LeftNode).Concat(ToEnumerable(node.RightNode))) 
+			{
+				yield return element;
 			}
 		}
 
-		class ConcreteCreatorB : Creator
-		{
-			public override Product FactoryMethod()
-			{
-				return new ConcreteProductB();
+		static IEnumerable<T> ToEnumerable2<T>(TreeNode<T> node) 
+		{ 
+			var stack = new Stack<TreeNode<T>>();
+			stack.Push(node);
+
+			while (stack.Count > 0) 
+			{ 
+				var current = stack.Pop();
+				if (current == null) 
+				{
+					continue;
+				}
+				yield return current.NodeValue;
+				stack.Push(current.LeftNode);
+				stack.Push(current.RightNode);
 			}
-		}
+		}		
 	}
 }
