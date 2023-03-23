@@ -338,6 +338,16 @@ namespace Patterns
 			// Structure accepting visitors
 			os.Accept(v1);
 			os.Accept(v2);
+			//Visitor - Shooting example
+			Console.WriteLine("---------------------------------");
+			Console.WriteLine("Visitor - Shooting example");
+			var shooter = new Shooter();
+
+			for (var i2 = 0; i2 <= 10; i2++)
+			{
+				Hit hit = shooter.Shoot();
+				hit.Accept(new Dosomething());
+			}
 			// Wait for user
 			Console.ReadKey();
 			Console.WriteLine();

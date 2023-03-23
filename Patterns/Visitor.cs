@@ -112,3 +112,69 @@ class ObjectStructure
 		}
 	}
 }
+
+// One more Visitor example - Example from game area - When someone Hits/Shoots to somewhere in the game
+
+abstract class Hit
+{
+	public abstract void Accept(IHitVisiter visiter);
+}
+
+class TargetHit : Hit
+{
+	public override void Accept(IHitVisiter visiter)
+	{
+		visiter.Visit(this);
+	}
+}
+
+class EnviromentHit : Hit
+{
+	public override void Accept(IHitVisiter visiter)
+	{
+		visiter.Visit(this);
+	}
+}
+
+interface IHitVisiter
+{
+	void Visit(Hit hit);
+	void Visit(TargetHit hit);
+	void Visit(EnviromentHit Hit);
+}
+
+class Dosomething : IHitVisiter
+{
+	public void Visit(Hit hit)
+	{
+		Console.WriteLine("Hit");
+	}
+
+	public void Visit(TargetHit hit)
+	{
+		Console.WriteLine("Target Hit");
+	}
+
+	public void Visit(EnviromentHit Hit)
+	{
+		Console.WriteLine("Enviroment Hit");
+	}
+}
+
+class Shooter
+{
+	public Hit Shoot()
+	{
+		var random = new Random();
+		var randomHit = random.Next(0, 2);
+		if (randomHit == 0)
+		{
+			return new TargetHit();
+		}
+		else if (randomHit == 1)
+		{
+			return new EnviromentHit();
+		}
+		return new EnviromentHit();
+	}
+}
